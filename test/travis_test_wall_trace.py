@@ -19,17 +19,19 @@ class WallStopTest(unittest.TestCace):
 
     def test_io(self):
 	left, right = self.set_and_get(400,100,100,0) #total: 600
-	self.assertTrue(left == 0 and right == 0, "can't stop")
+	self.assertTrue(left == right == 0, "can't stop")
 
-	left, right = self.set_and_get(40,0,0,9) #total: 49
-	self.assertTrue(0 < left == right < 1000, "can't move again")
+	left, right = self.set_and_get(0,5,1000,0) #side direction is not a trigger of stop
+	self.assertTrue(left == right != 0, "stop wrongly by side sensors")
 
-	time.sleep(5.0)
-	left, right = self.set_and_get(40,0,0,9) #total: 49
-	self.assertTrue(2000 < left == right, "can't accerelate")
+	left, right = self.set_and_get(0,10,0,0) #curve to left
+	self.assertTrue(left < right, "don't curve to left")
 
-	left, right = self.set_and_get(150,0,200,150) #total: 500
-	self.assertTrue(left == right == 0, "can't stop again")
+	left, right = self.set_and_get(0,200,0,0) #curve to right
+	self.assertTrue(left > right, "don't curve to right")
+
+	left, right = self.set_and_get(0,5,0,0) #don't control when far from a wall
+	self.assertTrue(0 < left == right, "curve wrongly")
 
 if __name__ == '__main__':
     time.sleep(3)
