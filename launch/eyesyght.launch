@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find pimouse_ros)/scripts/pimouse.launch" />
+  <node pkg="pimouse_run_corridor" name="eyesyght1" type="eyesyght1.py" required="true" />
+</launch>
